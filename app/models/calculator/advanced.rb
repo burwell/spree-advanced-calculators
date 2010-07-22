@@ -24,24 +24,6 @@ class Calculator::Advanced < Calculator
   end
 
   def get_rate(value)
-    # First try to find where price falls within price floor and ceiling
-    bucket = BucketRate.find(:first,
-      :conditions => [
-        "calculator_id = ? and floor <= ? and ceiling > ?",
-        self.id, value, value
-      ])
-
-    if bucket
-      return(bucket.rate)
-    else
-      # find largest one
-      bucket = BucketRate.find(:last, :conditions => ['calculator_id = ?', self.id], :order => "ceiling DESC")
-      # check if we've found largest one, and item_total is higher then ceiling
-      if bucket && value > bucket.ceiling
-        return(bucket.rate)
-      else
-        return(false) # if there's no rates, or we've hit a hole, let calculator use default rate.
-      end
-    end
+    BucketRate.for_calculator(self).including_value(value).first.try(:get_rate, value)
   end
 end

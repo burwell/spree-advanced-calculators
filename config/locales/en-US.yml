@@ -10,7 +10,9 @@ en-US:
       bucket_rate:
         floor: Floor
         ceiling: Ceiling
-        rate: Rate
+        base_rate: Base Rate
+        additional_rate: Additional Rate
+        increment: Increment
         unit: Unit
     models:
       bucket_rate:

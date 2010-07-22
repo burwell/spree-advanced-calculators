@@ -28,7 +28,7 @@ class TestWeightBucketCalculator < Test::Unit::TestCase
           BucketRate.create(
             :floor => x*100,
             :ceiling=> (x+1)*100,
-            :rate => (x+1)*100,
+            :base_rate => (x+1)*100,
             :calculator => @calculator
           )
         }

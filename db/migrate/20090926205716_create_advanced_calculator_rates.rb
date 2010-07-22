@@ -4,7 +4,9 @@ class CreateAdvancedCalculatorRates < ActiveRecord::Migration
       t.references :calculator
       t.decimal :floor, :precision => 8, :scale => 2
       t.decimal :ceiling, :precision => 8, :scale => 2
-      t.decimal :rate, :precision => 8, :scale => 2
+      t.decimal :base_rate, :precision => 8, :scale => 2
+      t.decimal :value_increment, :precision => 8, :scale => 2
+      t.decimal :additional_rate, :precision => 8, :scale => 2
       t.timestamps
     end
 

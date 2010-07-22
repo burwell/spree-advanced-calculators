@@ -48,9 +48,9 @@ class TestCalculatorAdvanced < Test::Unit::TestCase
       context "and rates" do
         setup do
           (1..5).map{ |x|
-            BucketRate.create(:floor => x*2, :ceiling=> x*2+2, :rate => x, :calculator => @calculator)
+            BucketRate.create(:floor => x*2, :ceiling=> x*2+2, :base_rate => x, :calculator => @calculator)
           }
-          BucketRate.create(:floor => 0, :ceiling=> 2, :rate => 333, :calculator => @calculator)
+          BucketRate.create(:floor => 0, :ceiling=> 2, :base_rate => 333, :calculator => @calculator)
         end
 
         should "find correct rates" do
@@ -69,6 +69,32 @@ class TestCalculatorAdvanced < Test::Unit::TestCase
         should "calculate based on array of line_items" do
           li = Factory(:line_item, :order => @order, :price => 19.99, :quantity => 1)
           assert_equal(333, @calculator.compute([li]))
+        end
+      end
+
+      context "and rates with increments in top bucket" do
+        setup do
+          (0..4).map do |x|
+            BucketRate.create(:floor => x*10, :ceiling=> (x+1)*10, :base_rate => (x+1), :calculator => @calculator)
+          end
+          BucketRate.create(:floor => 50, :ceiling=> nil, :base_rate => 6, :value_increment => 10, :additional_rate => 1, :calculator => @calculator)
+        end
+
+        should "calculate correct rates" do
+          10.times { |i|
+            assert_equal(i+1, @calculator.get_rate(i*10).to_i)
+          }
+        end
+
+        should "calculate correctly based on order" do
+          5.times { li = Factory(:line_item, :order => @order, :price => 19.99, :quantity => 1) }
+          assert_equal(1, @calculator.compute(@order).to_i)
+        end
+
+        should "calculate based on array of line_items" do
+          items = []
+          5.times { items << Factory(:line_item, :order => @order, :price => 19.99, :quantity => 1) }
+          assert_equal(1, @calculator.compute(items).to_i)
         end
       end
     end

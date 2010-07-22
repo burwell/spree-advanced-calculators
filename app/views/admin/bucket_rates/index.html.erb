@@ -17,9 +17,11 @@
     <tr>
       <th><%= t("name")%></th>
       <th><%= t("shipping_calculator")%></th>
-      <th><%= t("floor",   :scope => 'activerecord.attributes.bucket_rate') %></th>
-      <th><%= t("ceiling", :scope => 'activerecord.attributes.bucket_rate')%></th>
-      <th><%= t("rate",    :scope => 'activerecord.attributes.bucket_rate') %></th>
+      <th><%= t("floor",           :scope => 'activerecord.attributes.bucket_rate') %></th>
+      <th><%= t("ceiling",         :scope => 'activerecord.attributes.bucket_rate')%></th>
+      <th><%= t("base_rate",       :scope => 'activerecord.attributes.bucket_rate') %></th>
+      <th><%= t("additional_rate", :scope => 'activerecord.attributes.bucket_rate') %></th>
+      <th><%= t("increment",       :scope => 'activerecord.attributes.bucket_rate') %></th>
       <th><%= t("action")%></th>
     </tr>
   </thead>
@@ -30,7 +32,9 @@
         <td><%=rate.calculator ? rate.calculator.class.description: "-" %></td>
         <td><%=rate.floor %> <%= rate.unit %></td>
         <td><%=rate.ceiling %> <%= rate.unit %></td>
-        <td><%=number_to_currency(rate.rate) %></td>
+        <td><%=number_to_currency(rate.base_rate) %></td>
+        <td><%=number_to_currency(rate.additional_rate) %></td>
+        <td><%= rate.increment %> <%= rate.unit %></td>
         <td>
           <%= link_to_edit rate %> &nbsp;
           <%= link_to_delete rate %>

@@ -28,9 +28,23 @@
     </td>
   </tr>
   <tr>
-    <td><%= t("rate", :scope => 'activerecord.attributes.bucket_rate') %>:</td>
+    <td><%= t("base_rate", :scope => 'activerecord.attributes.bucket_rate') %>:</td>
     <td>
-      <%= f.text_field :rate, {"style" => "width:60px"} %>
+      <%= f.text_field :base_rate, {"style" => "width:60px"} %>
+      <%= t(:'number.currency.format.unit') %>
+    </td>
+  </tr>
+  <tr>
+    <td><%= t("additional_rate", :scope => 'activerecord.attributes.bucket_rate') %>:</td>
+    <td>
+      <%= f.text_field :additional_rate, {"style" => "width:60px"} %>
+      <%= t(:'number.currency.format.unit') %>
+    </td>
+  </tr>
+  <tr>
+    <td><%= t("increment", :scope => 'activerecord.attributes.bucket_rate') %>:</td>
+    <td>
+      <%= f.text_field :increment, {"style" => "width:60px"} %>
       <%= t(:'number.currency.format.unit') %>
     </td>
   </tr>
