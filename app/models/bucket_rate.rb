@@ -1,16 +1,12 @@
 class BucketRate < ActiveRecord::Base
   belongs_to :calculator
-  
+
   validates_presence_of :floor, :base_rate, :calculator_id
-  validates_presence_of :value_increment, :additional_rate, :if => :no_ceiling?, :message => "or ceiling is required"
 
   named_scope :order_by_floor, :order => "floor"
   named_scope :for_calculator, lambda{ |calc|
-    if calc.is_a?(Calculator)
-      {:conditions => {:calculator_id => calc.id}}
-    else
-      {:conditions => {:calculator_id => calc.to_i}}
-    end
+    calculator_id = calc.is_a?(Calculator) ? calc.id : calc
+    {:conditions => {:calculator_id => calculator_id}}
   }
   named_scope :including_value, lambda{|value|
     { :conditions => ["floor <= ? AND (ceiling > ? OR ceiling IS NULL)", value, value] }
@@ -18,6 +14,10 @@ class BucketRate < ActiveRecord::Base
 
   def no_ceiling?
     ceiling.blank?
+  end
+
+  def basic_rate_only?
+    additional_rate.blank? || value_increment.blank?
   end
 
   def unit
@@ -41,7 +41,7 @@ class BucketRate < ActiveRecord::Base
   end
 
   def additional_rate_for(value)
-    return 0 if value_increment.blank? or additional_rate.blank?
+    return 0 if basic_rate_only?
     ((value - floor) / value_increment).to_i * additional_rate
   end
 end
