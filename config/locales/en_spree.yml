@@ -1,5 +1,5 @@
 --- 
-en-US:
+en:
   actions:
     new: New
     create: Create
@@ -12,7 +12,7 @@ en-US:
         ceiling: Ceiling
         base_rate: Base Rate
         additional_rate: Additional Rate
-        increment: Increment
+        value_increment: Increment
         unit: Unit
     models:
       bucket_rate:
@@ -31,7 +31,7 @@ en-US:
   configure_bucket_rates: Configure Bucket Rates
   configure_new_bucket_rate: Configure New Bucket Rate
   bucket_rates: Bucket Rates
-  bucket_rates_description: Bucket Rates Description
+  bucket_rates_description: Configure "bucket" ranges to determine total price for shipping
   default_amount: Default Amount
   default_weight: Default Weight
   bucket_list_information: "
@@ -44,3 +44,4 @@ en-US:
   calculator_settings: Calculator Settings
   calculator_text: Calculator
   weight_unit: kg
+  shipping_calculator: Shipping Calculator

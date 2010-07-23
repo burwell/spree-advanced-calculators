@@ -21,20 +21,23 @@
       <th><%= t("ceiling",         :scope => 'activerecord.attributes.bucket_rate')%></th>
       <th><%= t("base_rate",       :scope => 'activerecord.attributes.bucket_rate') %></th>
       <th><%= t("additional_rate", :scope => 'activerecord.attributes.bucket_rate') %></th>
-      <th><%= t("increment",       :scope => 'activerecord.attributes.bucket_rate') %></th>
       <th><%= t("action")%></th>
     </tr>
   </thead>
   <tbody>
     <% @bucket_rates.sort.each do |rate| %>
       <tr>
-        <td><%=rate.calculator ? rate.calculator.name: "-" %></td>
-        <td><%=rate.calculator ? rate.calculator.class.description: "-" %></td>
-        <td><%=rate.floor %> <%= rate.unit %></td>
-        <td><%=rate.ceiling %> <%= rate.unit %></td>
-        <td><%=number_to_currency(rate.base_rate) %></td>
-        <td><%=number_to_currency(rate.additional_rate) %></td>
-        <td><%= rate.increment %> <%= rate.unit %></td>
+        <td><%= rate.calculator ? rate.calculator.name: "-" %></td>
+        <td><%= rate.calculator ? rate.calculator.class.description: "-" %></td>
+        <td><%= number_to_currency rate.floor, :unit => rate.unit %></td>
+        <td><%= number_to_currency rate.ceiling, :unit => rate.unit %></td>
+        <td><%= number_to_currency rate.base_rate, :unit => rate.unit %></td>
+        <td>
+          <%- if rate.no_ceiling? -%>
+          + <%= number_to_currency rate.additional_rate, :unit => rate.unit %>
+          per <%= number_to_currency rate.value_increment, :unit =>  rate.unit %>
+          <%- end -%>
+        </td>
         <td>
           <%= link_to_edit rate %> &nbsp;
           <%= link_to_delete rate %>

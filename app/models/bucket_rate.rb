@@ -31,7 +31,7 @@ class BucketRate < ActiveRecord::Base
   end
 
   def <=>(other)
-    returning calculator <=> other.calculator do |sort|
+    returning calculator.name <=> other.calculator.name do |sort|
       sort += floor <=> other.floor if sort.zero?
     end
   end
